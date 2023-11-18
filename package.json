@@ -16,6 +16,7 @@
     "express": "^4.18.2",
     "passport": "^0.6.0",
     "passport-dropbox-oauth2": "^1.1.0",
+    "react-dropbox-saver": "^1.0.1",
     "util": "^0.12.5"
   },
   "devDependencies": {
