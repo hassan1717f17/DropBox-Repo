@@ -1,32 +1,26 @@
-// server.js
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios');
 const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3001;
 
+app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
-app.post('/save-to-dropbox', async (req, res) => {
+app.use(bodyParser.json());
+
+app.post('/save-to-dropbox', (req, res) => {
   const { text } = req.body;
 
   // Create a text file
   const fileName = 'textFile.txt';
-  fs.writeFileSync(fileName, text);
+  const filePath = path.join(__dirname, fileName);
+  fs.writeFileSync(filePath, text);
 
-  // Use Dropbox Saver to save the file
-  const saverOptions = {
-    files: [
-      {
-        url: `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`,
-        filename: 'textFile.txt',
-      },
-    ],
-  };
-
-  res.status(200).json({ message: 'File saved to Dropbox successfully!' });
+  res.json({ success: true, filePath });
 });
 
 app.listen(PORT, () => {
